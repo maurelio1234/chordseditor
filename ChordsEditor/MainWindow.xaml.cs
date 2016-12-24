@@ -39,7 +39,6 @@ namespace ChordsEditor
             };
 
             DataContext = song;
-            Tableau.ItemsSource = song.Lines;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
