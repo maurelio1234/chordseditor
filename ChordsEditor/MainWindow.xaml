@@ -32,17 +32,27 @@
         <ItemsControl Name="Tableau" Margin="0, 20, 0, 0" ItemsSource="{Binding Lines}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <StackPanel.Resources>
+                    <DockPanel LastChildFill="True">
+                        <DockPanel.Resources>
                             <Style TargetType="TextBlock">
                                 <Setter Property="FontSize" Value="30"></Setter>
                                 <Setter Property="Margin" Value="5,5,5,5"></Setter>
                             </Style>
-                        </StackPanel.Resources>
-                        <TextBlock Text="{Binding LineNumber}" FontSize="15"></TextBlock>
-                        <TextBlock Text="{Binding Chords}"></TextBlock>
-                        <TextBlock Text="{Binding Note}"></TextBlock>
-                    </StackPanel>
+                            <Style TargetType="Border">
+                                <Setter Property="BorderBrush" Value="Black"></Setter>
+                                <Setter Property="BorderThickness" Value="2"></Setter>
+                            </Style>
+                        </DockPanel.Resources>
+                        <Border DockPanel.Dock="Left" MinWidth="30">
+                            <TextBlock Text="{Binding LineNumber}" FontSize="15"></TextBlock>
+                        </Border>
+                        <Border DockPanel.Dock="Right" MinWidth="50">
+                            <TextBlock Text="{Binding Note}"></TextBlock>
+                        </Border>
+                        <Border>
+                            <TextBlock Text="{Binding Chords}"></TextBlock>
+                        </Border>
+                    </DockPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
