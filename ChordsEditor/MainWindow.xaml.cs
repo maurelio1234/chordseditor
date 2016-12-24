@@ -22,14 +22,14 @@ namespace ChordsEditor
             InitializeComponent();
             var lines = new List<Line>();
             var lineNumber = 1;
-            lines.Add(new Line() { LineNumber = lineNumber++, Chords = "Em | Em | Em | Em " });
-            lines.Add(new Line() { LineNumber = lineNumber++, Chords = "Em | B7 | Am / B7 | Em" });
-            lines.Add(new Line() { LineNumber = lineNumber++, Chords = "Em | B7 | C7 / B7 | Em" });
-            lines.Add(new Line() { LineNumber = lineNumber++, Chords = "Em | B7 | Am / C7 | Em" });
-            lines.Add(new Line() { LineNumber = lineNumber++, Chords = "C  | Em | Am / F# B | Em" });
-            lines.Add(new Line() { LineNumber = lineNumber++, Chords = "Em | B7 | A7 / A#7 | B7" });
-            lines.Add(new Line() { LineNumber = lineNumber++, Chords = "C7 | Em | Am | Em " });
-            lines.Add(new Line() { LineNumber = lineNumber++, Chords = "A7 / A#7 | B7 | Am | Em", Note = "x7" });
+            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new List<string>(new string[] { "Em", "Em", "Em", "Em" }) });
+            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new List<string>(new string[] { "Em", "B7", "Am / B7", "Em" }) });
+            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new List<string>(new string[] { "Em", "B7", "C7 / B7", "Em" }) });
+            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new List<string>(new string[] { "Em", "B7", "Am / C7", "Em" }) });
+            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new List<string>(new string[] { "C ", "Em", "Am / F# B", "Em" }) });
+            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new List<string>(new string[] { "Em", "B7", "A7 / A#7", "B7" }) });
+            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new List<string>(new string[] { "C7", "Em", "Am", "Em " }) });
+            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new List<string>(new string[] { "A7 / A#7", "B7", "Am", "Em" }), Note = "x7" });
 
             var song = new Song() {
                 Title = "A very beautiful camel",
@@ -64,7 +64,7 @@ namespace ChordsEditor
     public class Line
     {
         public int LineNumber { get; set; }
-        public string Chords { get; set;  }
+        public List<string> Bars { get; set;  }
         public string Note { get; set;  }
     }
 }

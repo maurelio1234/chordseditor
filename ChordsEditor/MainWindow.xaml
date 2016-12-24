@@ -50,7 +50,31 @@
                             <TextBlock Text="{Binding Note}"></TextBlock>
                         </Border>
                         <Border>
-                            <TextBlock Text="{Binding Chords}"></TextBlock>
+                                <ItemsControl Name="Line" ItemsSource="{Binding Bars}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <StackPanel.Resources>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="FontSize" Value="30"></Setter>
+                                                        <Setter Property="Margin" Value="5,5,5,5"></Setter>
+                                                    </Style>
+                                                    <Style TargetType="Border">
+                                                        <Setter Property="BorderBrush" Value="Black"></Setter>
+                                                        <Setter Property="BorderThickness" Value="2"></Setter>
+                                                    </Style>
+                                                </StackPanel.Resources>
+                                            </StackPanel>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                        <Border>
+                                                <TextBlock Text="{Binding}"></TextBlock>
+                                        </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
                         </Border>
                     </DockPanel>
                 </DataTemplate>
