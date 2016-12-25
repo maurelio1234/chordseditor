@@ -69,8 +69,8 @@
                                     </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                        <Border>
-                                                <TextBlock Text="{Binding}"></TextBlock>
+                                        <Border BorderBrush="Black" BorderThickness="0 0 2 0">
+                                                <TextBlock Text="{Binding}" MinWidth="150" FontSize="30"></TextBlock>
                                         </Border>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
