@@ -16,9 +16,9 @@
         <RoutedUICommand x:Key="AddLineBefore" Text="Add line before"></RoutedUICommand>
     </Window.Resources>
     <Window.CommandBindings>
-        <CommandBinding Command="{StaticResource RemoveLine}" CanExecute="RemoveLine_CanExecute" Executed="RemoveLine_Executed"> </CommandBinding>
-        <CommandBinding Command="{StaticResource AddLineBefore}" CanExecute="AddLineBefore_CanExecute" Executed="AddLineBefore_Executed"> </CommandBinding>
-        <CommandBinding Command="{StaticResource AddLineAfter}" CanExecute="CommandBinding_CanExecute" Executed="AddLineAfter_Executed"> </CommandBinding>
+        <CommandBinding Command="{StaticResource RemoveLine}" CanExecute="Always_CanExecute" Executed="RemoveLine_Executed"> </CommandBinding>
+        <CommandBinding Command="{StaticResource AddLineBefore}" CanExecute="Always_CanExecute" Executed="AddLineBefore_Executed"> </CommandBinding>
+        <CommandBinding Command="{StaticResource AddLineAfter}" CanExecute="Always_CanExecute" Executed="AddLineAfter_Executed"> </CommandBinding>
     </Window.CommandBindings>
     <StackPanel Orientation="Vertical" Margin="20, 20, 5, 20">
         <TextBlock Text ="{Binding Title}" HorizontalAlignment="Center" FontSize="25"></TextBlock>

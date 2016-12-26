@@ -90,13 +90,7 @@ namespace ChordsEditor
             }
         }
 
-        // TODO: merge all can execute on a single method
-        private void RemoveLine_CanExecute(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = true;
-
-        private void AddLineBefore_CanExecute(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = true;
-
-        private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = true;
-
+        private void Always_CanExecute(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = true;
     }
 
     public class Song
