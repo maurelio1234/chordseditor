@@ -3,6 +3,9 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Linq;
+using System;
+using System.Collections.Generic;
 
 namespace ChordsEditor
 {
@@ -13,14 +16,14 @@ namespace ChordsEditor
             InitializeComponent();
             var lines = new ObservableCollection<Line>();
             var lineNumber = 1;
-            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new ObservableCollection<string>(new string[] { "Em", "Em", "Em", "Em" }) });
-            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new ObservableCollection<string>(new string[] { "Em", "B7", "Am / B7", "Em" }) });
-            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new ObservableCollection<string>(new string[] { "Em", "B7", "C7 / B7", "Em" }) });
-            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new ObservableCollection<string>(new string[] { "Em", "B7", "Am / C7", "Em" }) });
-            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new ObservableCollection<string>(new string[] { "C ", "Em", "Am / F# B", "Em" }) });
-            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new ObservableCollection<string>(new string[] { "Em", "B7", "A7 / A#7", "B7" }) });
-            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new ObservableCollection<string>(new string[] { "C7", "Em", "Am", "Em " }) });
-            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new ObservableCollection<string>(new string[] { "A7 / A#7", "B7", "Am", "Em" }), Note = "x7" });
+            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new ObservableCollection<Bar>(GenerateBars(new string[] { "Em", "Em", "Em", "Em" })) });
+            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new ObservableCollection<Bar>(GenerateBars(new string[] { "Em", "B7", "Am / B7", "Em" })) });
+            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new ObservableCollection<Bar>(GenerateBars(new string[] { "Em", "B7", "C7 / B7", "Em" })) });
+            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new ObservableCollection<Bar>(GenerateBars(new string[] { "Em", "B7", "Am / C7", "Em" })) });
+            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new ObservableCollection<Bar>(GenerateBars(new string[] { "C ", "Em", "Am / F# B", "Em" })) });
+            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new ObservableCollection<Bar>(GenerateBars(new string[] { "Em", "B7", "A7 / A#7", "B7" })) });
+            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new ObservableCollection<Bar>(GenerateBars(new string[] { "C7", "Em", "Am", "Em " })) });
+            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new ObservableCollection<Bar>(GenerateBars(new string[] { "A7 / A#7", "B7", "Am", "Em" })), Note = "x7" });
 
             var song = new Song()
             {
@@ -31,6 +34,11 @@ namespace ChordsEditor
             };
 
             DataContext = song;
+        }
+
+        private List<Bar> GenerateBars(string[] v)
+        {
+            return v.Select(content => new Bar() { Content = content }).ToList();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -70,6 +78,34 @@ namespace ChordsEditor
             RenumberSongLines(song);
         }
 
+        private void Always_CanExecute(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = true;
+
+        private void RemoveBar_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var bar = (Bar)e.Parameter;
+            var song = DataContext as Song;
+            Line line = song.Lines.First(l => l.Bars.Contains(bar));
+            line.Bars.Remove(bar);
+        }
+
+        private void AddBarBefore_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var bar = (Bar)e.Parameter;
+            var song = DataContext as Song;
+            var newBar = new Bar();
+            Line line = song.Lines.First(l => l.Bars.Contains(bar));
+            line.Bars.Insert(line.Bars.IndexOf(bar), newBar);
+        }
+
+        private void AddBarAfter_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var bar = (Bar)e.Parameter;
+            var song = DataContext as Song;
+            var newBar = new Bar();
+            Line line = song.Lines.First(l => l.Bars.Contains(bar));
+            line.Bars.Insert(line.Bars.IndexOf(bar)+1, newBar);
+        }
+
         private void RenumberSongLines(Song song)
         {
             var lineNumber = 1;
@@ -79,7 +115,6 @@ namespace ChordsEditor
             }
         }
 
-        private void Always_CanExecute(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = true;
     }
 
     public class Song
@@ -102,7 +137,7 @@ namespace ChordsEditor
             }
         }
 
-        public ObservableCollection<string> Bars { get; set; }
+        public ObservableCollection<Bar> Bars { get; set; }
 
         public string Note { get; set; }
 
@@ -115,5 +150,10 @@ namespace ChordsEditor
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
         }
+    }
+
+    public class Bar
+    {
+        public string Content { get; set; }
     }
 }

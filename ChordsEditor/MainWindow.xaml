@@ -13,12 +13,18 @@
     <Window.Resources>
         <RoutedUICommand x:Key="RemoveLine" Text="Remove line"></RoutedUICommand>
         <RoutedUICommand x:Key="AddLineAfter" Text="Add line after"></RoutedUICommand>
+        <RoutedUICommand x:Key="RemoveBar" Text="Remove bar"></RoutedUICommand>
         <RoutedUICommand x:Key="AddLineBefore" Text="Add line before"></RoutedUICommand>
+        <RoutedUICommand x:Key="AddBarBefore" Text="Add bar before"></RoutedUICommand>
+        <RoutedUICommand x:Key="AddBarAfter" Text="Add bar after"></RoutedUICommand>
     </Window.Resources>
     <Window.CommandBindings>
         <CommandBinding Command="{StaticResource RemoveLine}" CanExecute="Always_CanExecute" Executed="RemoveLine_Executed"> </CommandBinding>
         <CommandBinding Command="{StaticResource AddLineBefore}" CanExecute="Always_CanExecute" Executed="AddLineBefore_Executed"> </CommandBinding>
         <CommandBinding Command="{StaticResource AddLineAfter}" CanExecute="Always_CanExecute" Executed="AddLineAfter_Executed"> </CommandBinding>
+        <CommandBinding Command="{StaticResource RemoveBar}" CanExecute="Always_CanExecute" Executed="RemoveBar_Executed"> </CommandBinding>
+        <CommandBinding Command="{StaticResource AddBarBefore}" CanExecute="Always_CanExecute" Executed="AddBarBefore_Executed"> </CommandBinding>
+        <CommandBinding Command="{StaticResource AddBarAfter}" CanExecute="Always_CanExecute" Executed="AddBarAfter_Executed"> </CommandBinding>
     </Window.CommandBindings>
     <StackPanel Orientation="Vertical" Margin="20, 20, 5, 20">
         <TextBlock Text ="{Binding Title}" HorizontalAlignment="Center" FontSize="25"></TextBlock>
@@ -95,7 +101,22 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                         <Border BorderBrush="Black" BorderThickness="0 0 2 0">
-                                                <TextBlock Text="{Binding}" MinWidth="150" FontSize="30"></TextBlock>
+                                                <TextBlock Text="{Binding Content}" MinWidth="150" FontSize="30">
+                                                    <TextBlock.ContextMenu>
+                                                        <ContextMenu>
+                                                             <!-- This is a known bug on commands on menuItems: https://social.msdn.microsoft.com/Forums/vstudio/en-US/7bd75a7c-eab4-4f3a-967b-94a9534a7455/why-is-my-contextmenu-item-disabled?forum=wpf -->
+                                                            <MenuItem Command="{StaticResource RemoveBar}" 
+                                                                      CommandTarget="{Binding Path=PlacementTarget,RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                                                                      CommandParameter="{Binding}"></MenuItem>
+                                                            <MenuItem Command="{StaticResource AddBarBefore}" 
+                                                                      CommandTarget="{Binding Path=PlacementTarget,RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                                                                      CommandParameter="{Binding}"></MenuItem>
+                                                            <MenuItem Command="{StaticResource AddBarAfter}" 
+                                                                      CommandTarget="{Binding Path=PlacementTarget,RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                                                                      CommandParameter="{Binding}"></MenuItem>
+                                                        </ContextMenu>
+                                                    </TextBlock.ContextMenu>
+                                                </TextBlock>
                                         </Border>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
