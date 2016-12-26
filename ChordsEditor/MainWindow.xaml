@@ -12,9 +12,13 @@
         WindowState="Maximized">
     <Window.Resources>
         <RoutedUICommand x:Key="RemoveLine" Text="Remove line"></RoutedUICommand>
+        <RoutedUICommand x:Key="AddLineAfter" Text="Add line after"></RoutedUICommand>
+        <RoutedUICommand x:Key="AddLineBefore" Text="Add line before"></RoutedUICommand>
     </Window.Resources>
     <Window.CommandBindings>
         <CommandBinding Command="{StaticResource RemoveLine}" CanExecute="RemoveLine_CanExecute" Executed="RemoveLine_Executed"> </CommandBinding>
+        <CommandBinding Command="{StaticResource AddLineBefore}" CanExecute="AddLineBefore_CanExecute" Executed="AddLineBefore_Executed"> </CommandBinding>
+        <CommandBinding Command="{StaticResource AddLineAfter}" CanExecute="CommandBinding_CanExecute" Executed="AddLineAfter_Executed"> </CommandBinding>
     </Window.CommandBindings>
     <StackPanel Orientation="Vertical" Margin="20, 20, 5, 20">
         <TextBlock Text ="{Binding Title}" HorizontalAlignment="Center" FontSize="25"></TextBlock>
@@ -55,6 +59,12 @@
                                     <ContextMenu>
                                          <!-- This is a known bug on commands on menuItems: https://social.msdn.microsoft.com/Forums/vstudio/en-US/7bd75a7c-eab4-4f3a-967b-94a9534a7455/why-is-my-contextmenu-item-disabled?forum=wpf -->
                                         <MenuItem Command="{StaticResource RemoveLine}" 
+                                                  CommandTarget="{Binding Path=PlacementTarget,RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                                                  CommandParameter="{Binding}"></MenuItem>
+                                        <MenuItem Command="{StaticResource AddLineBefore}" 
+                                                  CommandTarget="{Binding Path=PlacementTarget,RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                                                  CommandParameter="{Binding}"></MenuItem>
+                                        <MenuItem Command="{StaticResource AddLineAfter}" 
                                                   CommandTarget="{Binding Path=PlacementTarget,RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
                                                   CommandParameter="{Binding}"></MenuItem>
                                     </ContextMenu>

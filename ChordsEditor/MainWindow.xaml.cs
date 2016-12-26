@@ -63,6 +63,24 @@ namespace ChordsEditor
             RenumberSongLines(song);
         }
 
+        private void AddLineBefore_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var line = (Line)e.Parameter;
+            var song = DataContext as Song;
+            var newLine = new Line();
+            song.Lines.Insert(song.Lines.IndexOf(line), newLine);
+            RenumberSongLines(song);
+        }
+
+        private void AddLineAfter_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var line = (Line)e.Parameter;
+            var song = DataContext as Song;
+            var newLine = new Line();
+            song.Lines.Insert(song.Lines.IndexOf(line)+1, newLine);
+            RenumberSongLines(song);
+        }
+
         private void RenumberSongLines(Song song)
         {
             var lineNumber = 1;
@@ -72,7 +90,13 @@ namespace ChordsEditor
             }
         }
 
+        // TODO: merge all can execute on a single method
         private void RemoveLine_CanExecute(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = true;
+
+        private void AddLineBefore_CanExecute(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = true;
+
+        private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = true;
+
     }
 
     public class Song
