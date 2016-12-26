@@ -17,6 +17,10 @@
         <RoutedUICommand x:Key="AddLineBefore" Text="Add line before"></RoutedUICommand>
         <RoutedUICommand x:Key="AddBarBefore" Text="Add bar before"></RoutedUICommand>
         <RoutedUICommand x:Key="AddBarAfter" Text="Add bar after"></RoutedUICommand>
+        <RoutedUICommand x:Key="SetColor.Black" Text="Black"></RoutedUICommand>
+        <RoutedUICommand x:Key="SetColor.Red" Text="Red"></RoutedUICommand>
+        <RoutedUICommand x:Key="SetColor.Green" Text="Green"></RoutedUICommand>
+        <RoutedUICommand x:Key="SetColor.Blue" Text="Blue"></RoutedUICommand>
     </Window.Resources>
     <Window.CommandBindings>
         <CommandBinding Command="{StaticResource RemoveLine}" CanExecute="Always_CanExecute" Executed="RemoveLine_Executed"> </CommandBinding>
@@ -25,6 +29,10 @@
         <CommandBinding Command="{StaticResource RemoveBar}" CanExecute="Always_CanExecute" Executed="RemoveBar_Executed"> </CommandBinding>
         <CommandBinding Command="{StaticResource AddBarBefore}" CanExecute="Always_CanExecute" Executed="AddBarBefore_Executed"> </CommandBinding>
         <CommandBinding Command="{StaticResource AddBarAfter}" CanExecute="Always_CanExecute" Executed="AddBarAfter_Executed"> </CommandBinding>
+        <CommandBinding Command="{StaticResource SetColor.Black}" CanExecute="Always_CanExecute" Executed="SetColorBlack_Executed"> </CommandBinding>
+        <CommandBinding Command="{StaticResource SetColor.Red}" CanExecute="Always_CanExecute" Executed="SetColorRed_Executed"> </CommandBinding>
+        <CommandBinding Command="{StaticResource SetColor.Green}" CanExecute="Always_CanExecute" Executed="SetColorGreen_Executed"> </CommandBinding>
+        <CommandBinding Command="{StaticResource SetColor.Blue}" CanExecute="Always_CanExecute" Executed="SetColorBlue_Executed"> </CommandBinding>
     </Window.CommandBindings>
     <StackPanel Orientation="Vertical" Margin="20, 20, 5, 20">
         <TextBlock Text ="{Binding Title}" HorizontalAlignment="Center" FontSize="25"></TextBlock>
@@ -73,6 +81,20 @@
                                         <MenuItem Command="{StaticResource AddLineAfter}" 
                                                   CommandTarget="{Binding Path=PlacementTarget,RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
                                                   CommandParameter="{Binding}"></MenuItem>
+                                        <MenuItem Header="Color">
+                                            <MenuItem Command="{StaticResource SetColor.Black}" 
+                                                      CommandTarget="{Binding Path=PlacementTarget,RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                                                      CommandParameter="{Binding}"></MenuItem>
+                                            <MenuItem Command="{StaticResource SetColor.Blue}" 
+                                                      CommandTarget="{Binding Path=PlacementTarget,RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                                                      CommandParameter="{Binding}"></MenuItem>
+                                            <MenuItem Command="{StaticResource SetColor.Green}" 
+                                                      CommandTarget="{Binding Path=PlacementTarget,RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                                                      CommandParameter="{Binding}"></MenuItem>
+                                            <MenuItem Command="{StaticResource SetColor.Red}" 
+                                                      CommandTarget="{Binding Path=PlacementTarget,RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                                                      CommandParameter="{Binding}"></MenuItem>
+                                        </MenuItem>
                                     </ContextMenu>
                                 </TextBlock.ContextMenu>
                             </TextBlock>
@@ -114,6 +136,20 @@
                                                             <MenuItem Command="{StaticResource AddBarAfter}" 
                                                                       CommandTarget="{Binding Path=PlacementTarget,RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
                                                                       CommandParameter="{Binding}"></MenuItem>
+                                                            <MenuItem Header="Color">
+                                                                <MenuItem Command="{StaticResource SetColor.Black}" 
+                                                                          CommandTarget="{Binding Path=PlacementTarget,RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                                                                          CommandParameter="{Binding}"></MenuItem>
+                                                                <MenuItem Command="{StaticResource SetColor.Blue}" 
+                                                                          CommandTarget="{Binding Path=PlacementTarget,RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                                                                          CommandParameter="{Binding}"></MenuItem>
+                                                                <MenuItem Command="{StaticResource SetColor.Green}" 
+                                                                          CommandTarget="{Binding Path=PlacementTarget,RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                                                                          CommandParameter="{Binding}"></MenuItem>
+                                                                <MenuItem Command="{StaticResource SetColor.Red}" 
+                                                                          CommandTarget="{Binding Path=PlacementTarget,RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                                                                          CommandParameter="{Binding}"></MenuItem>
+                                                            </MenuItem>
                                                         </ContextMenu>
                                                     </TextBlock.ContextMenu>
                                                 </TextBlock>

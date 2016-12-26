@@ -39,7 +39,7 @@ namespace ChordsEditor
 
         private List<Bar> GenerateBars(string[] v)
         {
-            return v.Select(content => new Bar() { Content = content }).ToList();
+            return v.Select(content => new Bar() { Content = content, Color = Brushes.Black }).ToList();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -107,12 +107,49 @@ namespace ChordsEditor
             line.Bars.Insert(line.Bars.IndexOf(bar)+1, newBar);
         }
 
+        private void SetColorBlack_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            SetElementColor(e.Parameter, Brushes.Black);
+        }
+
+        private void SetColorRed_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            SetElementColor(e.Parameter, Brushes.Red);
+        }
+
+        private void SetColorGreen_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            SetElementColor(e.Parameter, Brushes.Green);
+        }
+
+        private void SetColorBlue_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            SetElementColor(e.Parameter, Brushes.Blue);
+        }
+
         private void RenumberSongLines(Song song)
         {
             var lineNumber = 1;
             foreach (var line in song.Lines)
             {
                 line.LineNumber = lineNumber++;
+            }
+        }
+
+        private static void SetElementColor(object e, Brush color)
+        {
+            if (e is Bar)
+            {
+                var bar = (Bar)e;
+                bar.Color = color;
+            }
+            else if (e is Line)
+            {
+                var line = (Line)e;
+                foreach(var bar in line.Bars)
+                {
+                    bar.Color = color;
+                }
             }
         }
 
@@ -159,7 +196,7 @@ namespace ChordsEditor
 
     public class Bar : AbstractObservableElement
     {
-        private Brush _color = Brushes.Red;
+        private Brush _color;
         public Brush Color
         {
             get
