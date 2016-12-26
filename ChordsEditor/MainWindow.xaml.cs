@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.Linq;
 using System;
 using System.Collections.Generic;
+using System.Windows.Media;
 
 namespace ChordsEditor
 {
@@ -125,7 +126,20 @@ namespace ChordsEditor
         public ObservableCollection<Line> Lines { get; set; }
     }
 
-    public class Line : INotifyPropertyChanged
+    public abstract class AbstractObservableElement : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
+        }
+    }
+
+    public class Line : AbstractObservableElement
     {
         private int _lineNumber;
 
@@ -141,19 +155,25 @@ namespace ChordsEditor
 
         public string Note { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged(string name)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
-            }
-        }
     }
 
-    public class Bar
+    public class Bar : AbstractObservableElement
     {
+        private Brush _color = Brushes.Red;
+        public Brush Color
+        {
+            get
+            {
+                return _color;
+            }
+
+            set
+            {
+                _color = value;
+                OnPropertyChanged("Color");
+            }
+        }
+
         public string Content { get; set; }
     }
 }

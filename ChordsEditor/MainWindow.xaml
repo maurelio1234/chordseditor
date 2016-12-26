@@ -101,7 +101,7 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                         <Border BorderBrush="Black" BorderThickness="0 0 2 0">
-                                                <TextBlock Text="{Binding Content}" MinWidth="150" FontSize="30">
+                                                <TextBlock Text="{Binding Content}" MinWidth="150" FontSize="30" Foreground="{Binding Color}">
                                                     <TextBlock.ContextMenu>
                                                         <ContextMenu>
                                                              <!-- This is a known bug on commands on menuItems: https://social.msdn.microsoft.com/Forums/vstudio/en-US/7bd75a7c-eab4-4f3a-967b-94a9534a7455/why-is-my-contextmenu-item-disabled?forum=wpf -->
