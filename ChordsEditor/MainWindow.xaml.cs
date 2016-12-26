@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,18 +22,19 @@ namespace ChordsEditor
         public MainWindow()
         {
             InitializeComponent();
-            var lines = new List<Line>();
+            var lines = new ObservableCollection<Line>();
             var lineNumber = 1;
-            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new List<string>(new string[] { "Em", "Em", "Em", "Em" }) });
-            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new List<string>(new string[] { "Em", "B7", "Am / B7", "Em" }) });
-            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new List<string>(new string[] { "Em", "B7", "C7 / B7", "Em" }) });
-            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new List<string>(new string[] { "Em", "B7", "Am / C7", "Em" }) });
-            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new List<string>(new string[] { "C ", "Em", "Am / F# B", "Em" }) });
-            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new List<string>(new string[] { "Em", "B7", "A7 / A#7", "B7" }) });
-            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new List<string>(new string[] { "C7", "Em", "Am", "Em " }) });
-            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new List<string>(new string[] { "A7 / A#7", "B7", "Am", "Em" }), Note = "x7" });
+            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new ObservableCollection<string>(new string[] { "Em", "Em", "Em", "Em" }) });
+            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new ObservableCollection<string>(new string[] { "Em", "B7", "Am / B7", "Em" }) });
+            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new ObservableCollection<string>(new string[] { "Em", "B7", "C7 / B7", "Em" }) });
+            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new ObservableCollection<string>(new string[] { "Em", "B7", "Am / C7", "Em" }) });
+            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new ObservableCollection<string>(new string[] { "C ", "Em", "Am / F# B", "Em" }) });
+            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new ObservableCollection<string>(new string[] { "Em", "B7", "A7 / A#7", "B7" }) });
+            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new ObservableCollection<string>(new string[] { "C7", "Em", "Am", "Em " }) });
+            lines.Add(new Line() { LineNumber = lineNumber++, Bars = new ObservableCollection<string>(new string[] { "A7 / A#7", "B7", "Am", "Em" }), Note = "x7" });
 
-            var song = new Song() {
+            var song = new Song()
+            {
                 Title = "A very beautiful camel",
                 Signature = "4/4",
                 Tempo = 150,
@@ -51,20 +54,59 @@ namespace ChordsEditor
                 PrintButton.Visibility = Visibility.Visible;
             }
         }
+
+        private void RemoveLine_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var line = (Line)e.Parameter;
+            var song = DataContext as Song;
+            song.Lines.Remove(line);
+            RenumberSongLines(song);
+        }
+
+        private void RenumberSongLines(Song song)
+        {
+            var lineNumber = 1;
+            foreach (var line in song.Lines)
+            {
+                line.LineNumber = lineNumber++;
+            }
+        }
+
+        private void RemoveLine_CanExecute(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = true;
     }
 
     public class Song
     {
-        public string Title { get; set;  }
-        public string Signature { get; set;  }
-        public int    Tempo { get; set;  }
-        public List<Line> Lines { get; set; }
+        public string Title { get; set; }
+        public string Signature { get; set; }
+        public int Tempo { get; set; }
+        public ObservableCollection<Line> Lines { get; set; }
     }
 
-    public class Line
+    public class Line : INotifyPropertyChanged
     {
-        public int LineNumber { get; set; }
-        public List<string> Bars { get; set;  }
-        public string Note { get; set;  }
+        private int _lineNumber;
+
+        public int LineNumber {
+            get { return _lineNumber; }
+            set {
+                _lineNumber = value;
+                OnPropertyChanged("LineNumber");
+            }
+        }
+
+        public ObservableCollection<string> Bars { get; set; }
+
+        public string Note { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
+        }
     }
 }
