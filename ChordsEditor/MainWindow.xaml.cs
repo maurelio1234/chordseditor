@@ -166,6 +166,7 @@ namespace ChordsEditor
             InputTextBox.Text = DefaultText;
             InputBoxBehavior = p;
             InputBox.Visibility = System.Windows.Visibility.Visible;
+            InputTextBox.Focus();
         }
 
         private Action InputBoxBehavior;
@@ -174,6 +175,12 @@ namespace ChordsEditor
         {
             InputBox.Visibility = System.Windows.Visibility.Collapsed;
             InputBoxBehavior();
+            InputTextBox.Text = String.Empty;
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            InputBox.Visibility = System.Windows.Visibility.Collapsed;
             InputTextBox.Text = String.Empty;
         }
 
@@ -203,6 +210,17 @@ namespace ChordsEditor
             var textBox = (TextBlock)e.Source;
             var song = (Song)textBox.DataContext;
             ShowInputBox(song.Title==null?"":song.Title, () => song.Title = InputTextBox.Text);
+        }
+
+        private void InputTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                OkButton_Click(sender, null);
+            } else
+            {
+                CancelButton_Click(sender, null);
+            }
         }
     }
 
