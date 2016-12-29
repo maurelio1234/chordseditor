@@ -176,13 +176,69 @@ namespace ChordsEditor
             InputBoxBehavior();
             InputTextBox.Text = String.Empty;
         }
+
+        private void Note_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var textBox = (TextBlock)e.Source;
+            var line = (Line)textBox.DataContext;
+            ShowInputBox(line.Note==null?"":line.Note, () => line.Note = InputTextBox.Text);
+        }
+
+        private void Signature_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var textBox = (TextBlock)e.Source;
+            var song = (Song)textBox.DataContext;
+            ShowInputBox(song.Signature==null?"":song.Signature, () => song.Signature = InputTextBox.Text);
+        }
+
+        private void Tempo_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var textBox = (TextBlock)e.Source;
+            var song = (Song)textBox.DataContext;
+            ShowInputBox(song.Tempo.ToString(), () => song.Tempo = Int32.Parse(InputTextBox.Text));
+        }
+
+        private void Title_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var textBox = (TextBlock)e.Source;
+            var song = (Song)textBox.DataContext;
+            ShowInputBox(song.Title==null?"":song.Title, () => song.Title = InputTextBox.Text);
+        }
     }
 
-    public class Song
+    public class Song : AbstractObservableElement
     {
-        public string Title { get; set; }
-        public string Signature { get; set; }
-        public int Tempo { get; set; }
+        private string _title;
+        private string _signature;
+        private int _tempo;
+
+        public string Title
+        {
+            get { return _title; }
+            set
+            {
+                _title = value;
+                OnPropertyChanged("Title");
+            }
+        }
+        public string Signature 
+        {
+            get { return _signature; }
+            set
+            {
+                _signature = value;
+                OnPropertyChanged("Signature");
+            }
+        }
+        public int Tempo
+        {
+            get { return _tempo; }
+            set
+            {
+                _tempo = value;
+                OnPropertyChanged("Tempo");
+            }
+        }
         public ObservableCollection<Line> Lines { get; set; }
     }
 
@@ -202,6 +258,7 @@ namespace ChordsEditor
     public class Line : AbstractObservableElement
     {
         private int _lineNumber;
+        private string _note;
 
         public int LineNumber {
             get { return _lineNumber; }
@@ -213,8 +270,15 @@ namespace ChordsEditor
 
         public ObservableCollection<Bar> Bars { get; set; }
 
-        public string Note { get; set; }
-
+        public string Note
+        {
+            get { return _note; }
+            set
+            {
+                _note = value;
+                OnPropertyChanged("Note");
+            }
+        }
     }
 
     public class Bar : AbstractObservableElement
