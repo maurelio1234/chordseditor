@@ -34,6 +34,7 @@
         <CommandBinding Command="{StaticResource SetColor.Green}" CanExecute="Always_CanExecute" Executed="SetColorGreen_Executed"> </CommandBinding>
         <CommandBinding Command="{StaticResource SetColor.Blue}" CanExecute="Always_CanExecute" Executed="SetColorBlue_Executed"> </CommandBinding>
     </Window.CommandBindings>
+    <Grid>
     <StackPanel Orientation="Vertical" Margin="20, 20, 5, 20">
         <TextBlock Text ="{Binding Title}" HorizontalAlignment="Center" FontSize="25"></TextBlock>
         <StackPanel Orientation="Horizontal">
@@ -123,7 +124,7 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                         <Border BorderBrush="Black" BorderThickness="0 0 2 0">
-                                                <TextBlock Text="{Binding Content}" MinWidth="150" FontSize="30" Foreground="{Binding Color}">
+                                                <TextBlock Text="{Binding Content}" MinWidth="150" FontSize="30" Foreground="{Binding Color}" PreviewMouseLeftButtonDown="TextBlock_PreviewMouseLeftButtonDown">
                                                     <TextBlock.ContextMenu>
                                                         <ContextMenu>
                                                              <!-- This is a known bug on commands on menuItems: https://social.msdn.microsoft.com/Forums/vstudio/en-US/7bd75a7c-eab4-4f3a-967b-94a9534a7455/why-is-my-contextmenu-item-disabled?forum=wpf -->
@@ -164,4 +165,26 @@
         </ItemsControl>
         <Button Name="PrintButton" Content="Print" Height="30" Width="80" Click="Button_Click"></Button>
     </StackPanel>
+
+    <!-- Source: http://stackoverflow.com/questions/8103743/wpf-c-sharp-inputbox -->
+    <!-- It's important that this is in the end of the XAML as it needs to be on top of everything else! -->
+    <Grid x:Name="InputBox" Visibility="Collapsed">
+        <Grid Background="Black" Opacity="0.5"/>
+        <Border
+            Background="White"
+            MinWidth="250"
+            BorderBrush="Black" 
+            BorderThickness="1" 
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Center">
+            <StackPanel>
+                <TextBlock Margin="5" Text="ChordsEditor" FontWeight="Bold" FontFamily="Cambria" />
+                <TextBox MinWidth="150" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="InputTextBox"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button x:Name="OkButton" Margin="5" Content="Ok" Background="{x:Null}" Click="OkButton_Click" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+    </Grid>
 </Window>

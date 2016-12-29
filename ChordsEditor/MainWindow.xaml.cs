@@ -7,6 +7,7 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.Windows.Media;
+using Microsoft.VisualBasic;
 
 namespace ChordsEditor
 {
@@ -153,6 +154,28 @@ namespace ChordsEditor
             }
         }
 
+        private void TextBlock_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var textBox = (TextBlock)e.Source;
+            var bar = (Bar)textBox.DataContext;
+            ShowInputBox(bar.Content, () => bar.Content = InputTextBox.Text);
+        }
+
+        private void ShowInputBox(string DefaultText, Action p)
+        {
+            InputTextBox.Text = DefaultText;
+            InputBoxBehavior = p;
+            InputBox.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        private Action InputBoxBehavior;
+
+        private void OkButton_Click(object sender, RoutedEventArgs e)
+        {
+            InputBox.Visibility = System.Windows.Visibility.Collapsed;
+            InputBoxBehavior();
+            InputTextBox.Text = String.Empty;
+        }
     }
 
     public class Song
@@ -211,6 +234,18 @@ namespace ChordsEditor
             }
         }
 
-        public string Content { get; set; }
+        private string _content;
+        public string Content
+        {
+            get
+            {
+                return _content;
+            }
+            set
+            {
+                _content = value;
+                OnPropertyChanged("Content");
+            }
+        }
     }
 }
