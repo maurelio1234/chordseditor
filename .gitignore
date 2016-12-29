@@ -5,3 +5,5 @@
 /ChordsEditor/bin/Debug
 /ChordsEditor/obj/Debug
 /.vs/ChordsEditor/v14
+/ChordsEditor/obj/Release
+/ChordsEditor/bin/Release
