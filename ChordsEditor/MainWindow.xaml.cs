@@ -217,7 +217,8 @@ namespace ChordsEditor
             if (e.Key == Key.Return)
             {
                 OkButton_Click(sender, null);
-            } else
+            }
+            else if (e.Key == Key.Escape)
             {
                 CancelButton_Click(sender, null);
             }
